@@ -1,6 +1,4 @@
-import React, { useReducer } from 'react';
-
-const RecipeContext = React.createContext();
+import createDataContext from './createDataContext';
 
 const recipeReducer = (state, action) => {
     switch (action.type) {
@@ -11,18 +9,14 @@ const recipeReducer = (state, action) => {
     }
 };
 
-export const RecipeProvider = ({ children }) => {
-    const [recipePosts, dispatch] = useReducer(recipeReducer, []);
-
-    const addRecipePost = () => {
+const addRecipePost = (dispatch) => {
+    return () => {
         dispatch({ type: 'add_recipe' });
-    };
-
-    return (
-        <RecipeContext.Provider value={{ data: recipePosts, addRecipePost }}>
-            {children}
-        </RecipeContext.Provider>
-    );
+    };    
 };
 
-export default RecipeContext;
+export const { Context, Provider } = createDataContext(
+    recipeReducer,
+    { addRecipePost },
+    []
+);

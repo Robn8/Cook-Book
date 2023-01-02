@@ -1,16 +1,16 @@
 import React, { useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, Button } from 'react-native';
-import RecipeContext from '../Context/RecipeContext';
+import { Context } from '../Context/RecipeContext';
 
 const IndexScreen = () => {
-    const { data, addRecipePost } = useContext(RecipeContext);
+    const { state, addRecipePost } = useContext(Context);
 
     return (
         <View>
             <Text>Index Screen</Text>
             <Button title="Add Recipe" onPress={addRecipePost} />
             <FlatList 
-                data={data}
+                data={state}
                 keyExtractor={(recipePost) => recipePost.title}
                 renderItem={({ item }) => {
                     return <Text>{item.title}</Text>
