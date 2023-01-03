@@ -3,23 +3,25 @@ import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity } from 'reac
 import { Context } from '../Context/RecipeContext';
 import { Feather } from '@expo/vector-icons';
 
-const IndexScreen = () => {
+const IndexScreen = ({ navigation }) => {
     const { state, addRecipePost, deleteRecipePost } = useContext(Context);
 
     return (
         <View>
             <Button title="Add Recipe" onPress={addRecipePost} />
-            <FlatList 
+            <FlatList
                 data={state}
                 keyExtractor={(recipePost) => recipePost.title}
                 renderItem={({ item }) => {
                     return (
+                      <TouchableOpacity onPress={() => navigation.navigate('Show', { id: item.id})}>
                         <View style={styles.row}>
                             <Text style={styles.title}>{item.title} - {item.id}</Text>
                             <TouchableOpacity onPress={() => deleteRecipePost(item.id)}>
                                 <Feather name="trash" style={styles.icon} />
                             </TouchableOpacity>
-                        </View>   
+                        </View>
+                      </TouchableOpacity>
                     );
                 }}
             />
